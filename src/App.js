@@ -5,17 +5,17 @@ function App() {
   const [input, setInput] = useState("");
   const [result, setResult] = useState("");
 
-  const append = (e) => {
+  const append = (e, data) => {
     e.preventDefault();
-    const data = e.target.childNodes[0].data;
     setInput((old) => old + data);
   };
 
-  const clearBackspace = (e) => {
+  const backspace = (e) => {
+    e.preventDefault();
     setInput((old) => old.slice(0, -1));
   };
 
-  const clear = () => {
+  const reset = () => {
     setInput("");
     setResult("");
   };
@@ -40,35 +40,35 @@ function App() {
         <Table>
           <tbody>
             <tr>
-              <Td onClick={(e) => append(e)}>(</Td>
-              <Td onClick={(e) => append(e)}>)</Td>
-              <Td onClick={() => clearBackspace()}>&lt;-</Td>
-              <OperatorBtn onClick={(e) => append(e)}>+</OperatorBtn>
+              <Td onClick={(e) => append(e, "(")}>(</Td>
+              <Td onClick={(e) => append(e, ")")}>)</Td>
+              <Td onClick={(e) => backspace(e)}>&lt;-</Td>
+              <OperatorBtn onClick={(e) => append(e, "+")}>+</OperatorBtn>
             </tr>
             <tr>
-              <Td onClick={(e) => append(e)}>7</Td>
-              <Td onClick={(e) => append(e)}>8</Td>
-              <Td onClick={(e) => append(e)}>9</Td>
-              <OperatorBtn onClick={(e) => append(e)}>-</OperatorBtn>
+              <Td onClick={(e) => append(e, "7")}>7</Td>
+              <Td onClick={(e) => append(e, "8")}>8</Td>
+              <Td onClick={(e) => append(e, "9")}>9</Td>
+              <OperatorBtn onClick={(e) => append(e, "-")}>-</OperatorBtn>
             </tr>
             <tr>
-              <Td onClick={(e) => append(e)}>4</Td>
-              <Td onClick={(e) => append(e)}>5</Td>
-              <Td onClick={(e) => append(e)}>6</Td>
-              <OperatorBtn onClick={(e) => append(e)}>*</OperatorBtn>
+              <Td onClick={(e) => append(e, "4")}>4</Td>
+              <Td onClick={(e) => append(e, "5")}>5</Td>
+              <Td onClick={(e) => append(e, "6")}>6</Td>
+              <OperatorBtn onClick={(e) => append(e, "*")}>*</OperatorBtn>
             </tr>
             <tr>
-              <Td onClick={(e) => append(e)}>1</Td>
-              <Td onClick={(e) => append(e)}>2</Td>
-              <Td onClick={(e) => append(e)}>3</Td>
-              <OperatorBtn onClick={(e) => append(e)}>/</OperatorBtn>
+              <Td onClick={(e) => append(e, "1")}>1</Td>
+              <Td onClick={(e) => append(e, "2")}>2</Td>
+              <Td onClick={(e) => append(e, "3")}>3</Td>
+              <OperatorBtn onClick={(e) => append(e, "/")}>/</OperatorBtn>
             </tr>
             <tr>
-              <Td onClick={() => clear()}>
+              <Td onClick={() => reset()}>
                 <b>C</b>
               </Td>
-              <Td onClick={(e) => append(e)}>0</Td>
-              <Td onClick={(e) => append(e)}>.</Td>
+              <Td onClick={(e) => append(e, "0")}>0</Td>
+              <Td onClick={(e) => append(e, ".")}>.</Td>
               <EqualsBtn onClick={() => claculate()}>=</EqualsBtn>
             </tr>
           </tbody>
