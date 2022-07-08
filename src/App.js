@@ -1,46 +1,75 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 
 function App() {
+  const [input, setInput] = useState("");
+  const [result, setResult] = useState("");
+
+  const append = (e) => {
+    e.preventDefault();
+    const data = e.target.childNodes[0].data;
+    setInput((old) => old + data);
+  };
+
+  const clearBackspace = (e) => {
+    setInput((old) => old.slice(0, -1));
+  };
+
+  const clear = () => {
+    setInput("");
+    setResult("");
+  };
+
+  const claculate = () => {
+    if (input.length === 0 || input === "") {
+      alert("Needs input");
+    }
+    try {
+      setResult(eval(input));
+    } catch (e) {
+      alert("Invalid input");
+    }
+  };
+
   return (
     <React.Fragment>
       <GlobalStyle />
       <Container>
-        <Input type="text" placeholder="0" disabled />
-        <Input type="text" placeholder="0" disabled />
+        <Input type="text" placeholder="0" disabled value={input} />
+        <Input type="text" placeholder="0" disabled value={result} />
         <Table>
           <tbody>
             <tr>
-              <Td>(</Td>
-              <Td>)</Td>
-              <Td>&lt;-</Td>
-              <OperatorBtn>+</OperatorBtn>
+              <Td onClick={(e) => append(e)}>(</Td>
+              <Td onClick={(e) => append(e)}>)</Td>
+              <Td onClick={() => clearBackspace()}>&lt;-</Td>
+              <OperatorBtn onClick={(e) => append(e)}>+</OperatorBtn>
             </tr>
             <tr>
-              <Td>7</Td>
-              <Td>8</Td>
-              <Td>9</Td>
-              <OperatorBtn>-</OperatorBtn>
+              <Td onClick={(e) => append(e)}>7</Td>
+              <Td onClick={(e) => append(e)}>8</Td>
+              <Td onClick={(e) => append(e)}>9</Td>
+              <OperatorBtn onClick={(e) => append(e)}>-</OperatorBtn>
             </tr>
             <tr>
-              <Td>4</Td>
-              <Td>5</Td>
-              <Td>6</Td>
-              <OperatorBtn>*</OperatorBtn>
+              <Td onClick={(e) => append(e)}>4</Td>
+              <Td onClick={(e) => append(e)}>5</Td>
+              <Td onClick={(e) => append(e)}>6</Td>
+              <OperatorBtn onClick={(e) => append(e)}>*</OperatorBtn>
             </tr>
             <tr>
-              <Td>1</Td>
-              <Td>2</Td>
-              <Td>3</Td>
-              <OperatorBtn>/</OperatorBtn>
+              <Td onClick={(e) => append(e)}>1</Td>
+              <Td onClick={(e) => append(e)}>2</Td>
+              <Td onClick={(e) => append(e)}>3</Td>
+              <OperatorBtn onClick={(e) => append(e)}>/</OperatorBtn>
             </tr>
             <tr>
-              <Td>
+              <Td onClick={() => clear()}>
                 <b>C</b>
               </Td>
-              <Td>0</Td>
-              <Td>.</Td>
-              <EqualsBtn>=</EqualsBtn>
+              <Td onClick={(e) => append(e)}>0</Td>
+              <Td onClick={(e) => append(e)}>.</Td>
+              <EqualsBtn onClick={() => claculate()}>=</EqualsBtn>
             </tr>
           </tbody>
         </Table>
