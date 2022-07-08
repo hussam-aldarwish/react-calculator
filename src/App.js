@@ -1,26 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 
 function App() {
   const [input, setInput] = useState("");
   const [result, setResult] = useState("");
 
-  const append = (e, data) => {
-    e.preventDefault();
+  const append = (data) => {
     setInput((old) => old + data);
   };
 
-  const backspace = (e) => {
-    e.preventDefault();
-    setInput((old) => old.slice(0, -1));
-  };
+  const backspace = () => setInput((old) => old.slice(0, -1));
 
   const reset = () => {
     setInput("");
     setResult("");
   };
 
-  const claculate = () => {
+  const calculate = useCallback(() => {
     if (input.length === 0 || input === "") {
       alert("Needs input");
     }
@@ -29,47 +25,92 @@ function App() {
     } catch (e) {
       alert("Invalid input");
     }
-  };
+  }, [input]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        calculate();
+      }
+      if (e.key === "Backspace") {
+        backspace();
+      }
+      if (
+        e.key === "0" ||
+        e.key === "1" ||
+        e.key === "2" ||
+        e.key === "3" ||
+        e.key === "4" ||
+        e.key === "5" ||
+        e.key === "6" ||
+        e.key === "7" ||
+        e.key === "8" ||
+        e.key === "9" ||
+        e.key === "+" ||
+        e.key === "-" ||
+        e.key === "*" ||
+        e.key === "/" ||
+        e.key === "." ||
+        e.key === "," ||
+        e.key === "(" ||
+        e.key === ")"
+      ) {
+        append(e.key === "," ? "." : e.key);
+      }
+      if (e.key === "Escape") {
+        reset();
+      }
+    };
+
+    // add keydown event listener
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      // remove keydown event listener
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [calculate]);
 
   return (
     <React.Fragment>
       <GlobalStyle />
       <Container>
-        <Input type="text" placeholder="0" disabled value={input} />
-        <Input type="text" placeholder="0" disabled value={result} />
+        <Input type="text" placeholder="0" disabled defaultValue={input} />
+        <Input type="text" placeholder="0" disabled defaultValue={result} />
         <Table>
           <tbody>
             <tr>
-              <Td onClick={(e) => append(e, "(")}>(</Td>
-              <Td onClick={(e) => append(e, ")")}>)</Td>
-              <Td onClick={(e) => backspace(e)}>&lt;-</Td>
-              <OperatorBtn onClick={(e) => append(e, "+")}>+</OperatorBtn>
+              <Td onClick={() => append("(")}>(</Td>
+              <Td onClick={() => append(")")}>)</Td>
+              <Td onClick={() => backspace()}>&lt;-</Td>
+              <OperatorBtn onClick={() => append("+")}>+</OperatorBtn>
             </tr>
             <tr>
-              <Td onClick={(e) => append(e, "7")}>7</Td>
-              <Td onClick={(e) => append(e, "8")}>8</Td>
-              <Td onClick={(e) => append(e, "9")}>9</Td>
-              <OperatorBtn onClick={(e) => append(e, "-")}>-</OperatorBtn>
+              <Td onClick={() => append("7")}>7</Td>
+              <Td onClick={() => append("8")}>8</Td>
+              <Td onClick={() => append("9")}>9</Td>
+              <OperatorBtn onClick={() => append("-")}>-</OperatorBtn>
             </tr>
             <tr>
-              <Td onClick={(e) => append(e, "4")}>4</Td>
-              <Td onClick={(e) => append(e, "5")}>5</Td>
-              <Td onClick={(e) => append(e, "6")}>6</Td>
-              <OperatorBtn onClick={(e) => append(e, "*")}>*</OperatorBtn>
+              <Td onClick={() => append("4")}>4</Td>
+              <Td onClick={() => append("5")}>5</Td>
+              <Td onClick={() => append("6")}>6</Td>
+              <OperatorBtn onClick={() => append("*")}>*</OperatorBtn>
             </tr>
             <tr>
-              <Td onClick={(e) => append(e, "1")}>1</Td>
-              <Td onClick={(e) => append(e, "2")}>2</Td>
-              <Td onClick={(e) => append(e, "3")}>3</Td>
-              <OperatorBtn onClick={(e) => append(e, "/")}>/</OperatorBtn>
+              <Td onClick={() => append("1")}>1</Td>
+              <Td onClick={() => append("2")}>2</Td>
+              <Td onClick={() => append("3")}>3</Td>
+              <OperatorBtn onClick={() => append("/")}>/</OperatorBtn>
             </tr>
             <tr>
               <Td onClick={() => reset()}>
                 <b>C</b>
               </Td>
-              <Td onClick={(e) => append(e, "0")}>0</Td>
-              <Td onClick={(e) => append(e, ".")}>.</Td>
-              <EqualsBtn onClick={() => claculate()}>=</EqualsBtn>
+              <Td onClick={() => append("0")}>0</Td>
+              <Td onClick={() => append(".")}>.</Td>
+              <EqualsBtn onClick={() => calculate()}>=</EqualsBtn>
             </tr>
           </tbody>
         </Table>
