@@ -137,7 +137,8 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const Container = styled.div`
-  width: 400px;
+  max-width: 400px;
+  width: 100%;
   background: #fff;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 `;
