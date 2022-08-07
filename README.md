@@ -1,5 +1,7 @@
 # Calculator App!
 
+[![wakatime](https://wakatime.com/badge/github/hussam-aldarwish/react-calculator.svg)](https://wakatime.com/badge/github/hussam-aldarwish/react-calculator)
+
 ![screencapture-react-calculator-mu-blush-vercel-app-2022-07-08-04_24_31](https://user-images.githubusercontent.com/90006627/177898158-068f261b-e44a-43da-a833-5f11f4b1b451.png)
 
 ## 🚀 Demo
